@@ -1,5 +1,6 @@
 import express from "express";
 import notesRoutes from "./Routes/notesRoutes.js";
+import userRoutes from "./Routes/userRoutes.js";
 import { connectDB } from "./Config/db.js";
 import dotenv from "dotenv";
 import rateLimiter from "./Middlewares/rateLimiterMiddleware.js";
@@ -14,6 +15,7 @@ app.use(cors({ origin: "http://localhost:5173" }));
 app.use(rateLimiter);
 
 app.use("/api/notes", notesRoutes);
+app.use("/api/auth", userRoutes);
 
 connectDB().then(() => {
   app.listen(PORT, () => {
