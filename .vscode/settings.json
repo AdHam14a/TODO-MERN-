@@ -10,5 +10,6 @@
     "comments": false,
     "strings": true
   },
-  "editor.suggest.snippetsPreventQuickSuggestions": false
+  "editor.suggest.snippetsPreventQuickSuggestions": false,
+  "css.lint.unknownAtRules": "ignore"
 }
