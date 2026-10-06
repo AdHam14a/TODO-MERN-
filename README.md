@@ -99,7 +99,7 @@ Base URL: `http://localhost:5001/api/notes`
 | :--- | :--- | :--- | :--- |
 | `GET` | `/` | Retrieve all notes | None |
 | `POST` | `/` | Create a new note | `{ "title": "string", "content": "string" }` |
-| `GET` | `/byID/:id` | Retrieve a single note by ID | None |
+| `GET` | `/:id` | Retrieve a single note by ID | None |
 | `PUT` | `/:id` | Update a note by ID | `{ "title": "string", "content": "string" }` |
 | `DELETE` | `/:id` | Delete a note by ID | None |
 
