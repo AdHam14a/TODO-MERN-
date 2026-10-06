@@ -15,7 +15,7 @@ const createNotes = async (req, res) => {
     const { title, content } = req.body;
     const newNote = new Note({ title, content });
     await newNote.save();
-    res.status(201).json({ message: "Created successfully" });
+    res.status(201).json({ message: "Created successfully", note: newNote });
   } catch (error) {
     console.error("Error in createNotes", error);
     res.status(500).json("Internal server error");
@@ -33,7 +33,7 @@ const updateNotes = async (req, res) => {
       },
       { new: true },
     );
-    if (!updateNotes)
+    if (!updatedNote)
       return res.status(404).json({ message: "Note not found" });
     res.status(200).json(updatedNote);
   } catch (error) {
