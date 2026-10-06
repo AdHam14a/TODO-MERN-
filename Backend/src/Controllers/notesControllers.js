@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import Note from "../Model/Note.js";
 
 const getAllNotes = async (req, res) => {
@@ -13,6 +14,11 @@ const getAllNotes = async (req, res) => {
 const createNotes = async (req, res) => {
   try {
     const { title, content } = req.body;
+    if (!title || !content) {
+      return res
+        .status(400)
+        .json({ message: "Title and content are required" });
+    }
     const newNote = new Note({ title, content });
     await newNote.save();
     res.status(201).json({ message: "Created successfully", note: newNote });
@@ -25,6 +31,9 @@ const createNotes = async (req, res) => {
 const updateNotes = async (req, res) => {
   try {
     const { title, content } = req.body;
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({ message: "Invalid note ID format" });
+    }
     const updatedNote = await Note.findByIdAndUpdate(
       req.params.id,
       {
@@ -44,18 +53,24 @@ const updateNotes = async (req, res) => {
 
 const deleteNotes = async (req, res) => {
   try {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({ message: "Invalid note ID format" });
+    }
     const deletedNote = await Note.findByIdAndDelete(req.params.id);
     if (!deletedNote)
       return res.status(404).json({ message: "Note not found" });
     res.status(200).json({ message: "Note deleted successfully" });
   } catch (error) {
-    console.error("Error in updateNotes", error);
+    console.error("Error in deleteNotes", error);
     res.status(500).json("Internal server error");
   }
 };
 
 const getNotesById = async (req, res) => {
   try {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({ message: "Invalid note ID format" });
+    }
     const noteById = await Note.findById(req.params.id);
     if (!noteById) return res.status(404).json({ message: "Note not found" });
     res.status(200).json(noteById);
