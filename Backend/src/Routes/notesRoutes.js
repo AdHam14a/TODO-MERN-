@@ -6,11 +6,12 @@ import {
   getNotesById,
   updateNotes,
 } from "../Controllers/notesControllers.js";
+import protectRoute from "../Middlewares/authMiddleware.js";
 
 const router = express.Router();
 
-router.get("/", getAllNotes);
-router.post("/", createNotes);
+router.get("/", protectRoute, getAllNotes);
+router.post("/", protectRoute, createNotes);
 router.put("/:id", updateNotes);
 router.delete("/:id", deleteNotes);
 router.get("/:id", getNotesById);

@@ -79,7 +79,7 @@ const login = async (req, res) => {
       email: userExisting.email,
     });
 
-    res.status(201).json({
+    res.status(200).json({
       status: "success",
       user: {
         _id: userExisting._id,
