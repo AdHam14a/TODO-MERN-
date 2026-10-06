@@ -6,7 +6,8 @@ import Create from "./Pages/Create";
 const App = () => {
   return (
     <>
-      <Routes>
+          <Routes>
+              
         <Route path="/" element={<Home />} />
         <Route path="/create" element={<Create />} />
         <Route path="/:id" element={<Detail />} />

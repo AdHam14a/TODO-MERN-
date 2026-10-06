@@ -1,9 +1,12 @@
-import React from 'react'
+import React from "react";
+import toast from "react-hot-toast";
 
 const Home = () => {
   return (
-    <div>Home</div>
-  )
-}
+    <>
+      <button onClick={() => toast.success("Done")}>Click</button>
+    </>
+  );
+};
 
-export default Home
+export default Home;
