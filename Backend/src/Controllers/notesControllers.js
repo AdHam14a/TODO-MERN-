@@ -36,7 +36,7 @@ const updateNotes = async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
       return res.status(400).json({ message: "Invalid note ID format" });
     }
-    const updatedNote = await Note.findByIdAndUpdate(
+    const updatedNote = await Note.findOneAndUpdate(
       { _id: req.params.id, user: req.user._id },
       {
         title,
@@ -58,7 +58,7 @@ const deleteNotes = async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
       return res.status(400).json({ message: "Invalid note ID format" });
     }
-    const deletedNote = await Note.findByIdAndDelete({
+    const deletedNote = await Note.findOneAndDelete({
       _id: req.params.id,
       user: req.user._id,
     });
@@ -76,7 +76,7 @@ const getNotesById = async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
       return res.status(400).json({ message: "Invalid note ID format" });
     }
-    const noteById = await Note.findById({
+    const noteById = await Note.findOne({
       _id: req.params.id,
       user: req.user._id,
     });
