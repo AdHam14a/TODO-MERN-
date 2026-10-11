@@ -3,7 +3,9 @@ import Note from "../Model/Note.js";
 
 const getAllNotes = async (req, res) => {
   try {
-    const notes = await Note.find().sort({ createdAt: -1 });
+    const notes = await Note.find({ user: req.user._id }).sort({
+      createdAt: -1,
+    });
     res.status(200).json(notes);
   } catch (error) {
     console.error("Error in getAllNotes", error);
@@ -19,7 +21,7 @@ const createNotes = async (req, res) => {
         .status(400)
         .json({ message: "Title and content are required" });
     }
-    const newNote = new Note({ title, content });
+    const newNote = new Note({ title, content, user: req.user._id });
     await newNote.save();
     res.status(201).json({ message: "Created successfully", note: newNote });
   } catch (error) {
@@ -35,7 +37,7 @@ const updateNotes = async (req, res) => {
       return res.status(400).json({ message: "Invalid note ID format" });
     }
     const updatedNote = await Note.findByIdAndUpdate(
-      req.params.id,
+      { _id: req.params.id, user: req.user._id },
       {
         title,
         content,
@@ -56,7 +58,10 @@ const deleteNotes = async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
       return res.status(400).json({ message: "Invalid note ID format" });
     }
-    const deletedNote = await Note.findByIdAndDelete(req.params.id);
+    const deletedNote = await Note.findByIdAndDelete({
+      _id: req.params.id,
+      user: req.user._id,
+    });
     if (!deletedNote)
       return res.status(404).json({ message: "Note not found" });
     res.status(200).json({ message: "Note deleted successfully" });
@@ -71,7 +76,10 @@ const getNotesById = async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
       return res.status(400).json({ message: "Invalid note ID format" });
     }
-    const noteById = await Note.findById(req.params.id);
+    const noteById = await Note.findById({
+      _id: req.params.id,
+      user: req.user._id,
+    });
     if (!noteById) return res.status(404).json({ message: "Note not found" });
     res.status(200).json(noteById);
   } catch (error) {

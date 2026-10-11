@@ -9,9 +9,10 @@ import {
 import protectRoute from "../Middlewares/authMiddleware.js";
 
 const router = express.Router();
+router.use(protectRoute);
 
-router.get("/", protectRoute, getAllNotes);
-router.post("/", protectRoute, createNotes);
+router.get("/", getAllNotes);
+router.post("/", createNotes);
 router.put("/:id", updateNotes);
 router.delete("/:id", deleteNotes);
 router.get("/:id", getNotesById);
