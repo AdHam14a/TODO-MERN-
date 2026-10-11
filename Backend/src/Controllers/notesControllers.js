@@ -6,7 +6,7 @@ const getAllNotes = async (req, res) => {
     const { isCompleted, Priority } = req.query;
     const filter = { user: req.user.id };
     if (isCompleted !== undefined) {
-      filter.isCompleted = isCompleted = true;
+      filter.isCompleted = isCompleted === true;
     }
     if (Priority) {
       filter.Priority = Priority;
@@ -46,7 +46,7 @@ const createNotes = async (req, res) => {
 
 const updateNotes = async (req, res) => {
   try {
-    const { title, content } = req.body;
+    const { title, content, Priority, isCompleted } = req.body;
     if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
       return res.status(400).json({ message: "Invalid note ID format" });
     }
@@ -55,6 +55,8 @@ const updateNotes = async (req, res) => {
       {
         title,
         content,
+        Priority,
+        isCompleted,
       },
       { new: true },
     );
