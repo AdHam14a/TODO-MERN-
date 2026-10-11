@@ -6,16 +6,23 @@ const noteSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "user",
       required: true,
-      
     },
     title: {
       type: String,
       required: true,
-
     },
     content: {
       type: String,
       required: true,
+    },
+    isCompleted: {
+      type: Boolean,
+      default: false,
+    },
+    Priority: {
+      type: String,
+      enum: ["low", "medium", "high"],
+      default: "medium",
     },
   },
   { timestamps: true },

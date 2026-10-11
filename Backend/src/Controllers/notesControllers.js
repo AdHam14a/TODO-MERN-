@@ -3,7 +3,15 @@ import Note from "../Model/Note.js";
 
 const getAllNotes = async (req, res) => {
   try {
-    const notes = await Note.find({ user: req.user._id }).sort({
+    const { isCompleted, Priority } = req.query;
+    const filter = { user: req.user.id };
+    if (isCompleted !== undefined) {
+      filter.isCompleted = isCompleted = true;
+    }
+    if (Priority) {
+      filter.Priority = Priority;
+    }
+    const notes = await Note.find(filter).sort({
       createdAt: -1,
     });
     res.status(200).json(notes);
@@ -15,13 +23,19 @@ const getAllNotes = async (req, res) => {
 
 const createNotes = async (req, res) => {
   try {
-    const { title, content } = req.body;
+    const { title, content, Priority, isCompleted } = req.body;
     if (!title || !content) {
       return res
         .status(400)
         .json({ message: "Title and content are required" });
     }
-    const newNote = new Note({ title, content, user: req.user._id });
+    const newNote = new Note({
+      title,
+      content,
+      Priority,
+      isCompleted,
+      user: req.user._id,
+    });
     await newNote.save();
     res.status(201).json({ message: "Created successfully", note: newNote });
   } catch (error) {
