@@ -4,9 +4,9 @@ import Note from "../Model/Note.js";
 const getAllNotes = async (req, res) => {
   try {
     const { isCompleted, Priority } = req.query;
-    const filter = { user: req.user.id };
+    const filter = { user: req.user._id };
     if (isCompleted !== undefined) {
-      filter.isCompleted = isCompleted === true;
+      filter.isCompleted = isCompleted === "true";
     }
     if (Priority) {
       filter.Priority = Priority;
